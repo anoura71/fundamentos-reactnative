@@ -27,6 +27,7 @@ import { useCart } from '../../hooks/cart';
 
 import formatValue from '../../utils/formatValue';
 
+
 interface Product {
   id: string;
   title: string;
@@ -35,28 +36,47 @@ interface Product {
   quantity: number;
 }
 
+
 const Cart: React.FC = () => {
+
+
   const { increment, decrement, products } = useCart();
 
+
+  /** Incrementar em 1 unidade a quantidade do item selecionado no carrinho. */
   function handleIncrement(id: string): void {
-    // TODO
+    increment(id);
   }
 
+
+  /** Decrementar em 1 unidade a quantidade do item selecionado no carrinho. */
   function handleDecrement(id: string): void {
-    // TODO
+    decrement(id);
   }
 
+
+  /** Retornar o valor total dos produtos adicionados ao carrinho. */
   const cartTotal = useMemo(() => {
-    // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
 
-    return formatValue(0);
+    const amountTotal = products.reduce((accumulator, product) => {
+      const subTotal = product.price * product.quantity;
+      return (accumulator + subTotal);
+    }, 0);
+
+    return formatValue(amountTotal);
   }, [products]);
 
+
+  /** Retornar a quantidade total dos produtos adicionados ao carrinho. */
   const totalItensInCart = useMemo(() => {
-    // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
 
-    return 0;
+    const quantityTotal = products.reduce((accumulator, product) => {
+      return (accumulator + product.quantity);
+    }, 0);
+
+    return quantityTotal;
   }, [products]);
+
 
   return (
     <Container>
@@ -113,5 +133,6 @@ const Cart: React.FC = () => {
     </Container>
   );
 };
+
 
 export default Cart;

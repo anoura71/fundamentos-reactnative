@@ -21,6 +21,7 @@ import {
   ProductButton,
 } from './styles';
 
+
 interface Product {
   id: string;
   title: string;
@@ -28,22 +29,32 @@ interface Product {
   price: number;
 }
 
+
 const Dashboard: React.FC = () => {
+
+
   const { addToCart } = useCart();
 
   const [products, setProducts] = useState<Product[]>([]);
 
+
   useEffect(() => {
+
+    /** Carregar lista de produtos. */
     async function loadProducts(): Promise<void> {
-      // TODO
+      const response = await api.get('/products');
+      setProducts(response.data);
     }
 
     loadProducts();
   }, []);
 
+
+  /** Adicionar item selecionado ao carrinho. */
   function handleAddToCart(item: Product): void {
-    // TODO
+    addToCart(item);
   }
+
 
   return (
     <Container>
@@ -76,5 +87,6 @@ const Dashboard: React.FC = () => {
     </Container>
   );
 };
+
 
 export default Dashboard;
